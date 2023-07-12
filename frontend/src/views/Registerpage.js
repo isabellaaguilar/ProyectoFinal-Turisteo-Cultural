@@ -1,4 +1,4 @@
-import {useState, useContext} from 'react'
+import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
@@ -8,21 +8,25 @@ function Registerpage() {
   const [email, setEmail] = useState("")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [fecha_nacimiento, setfecha_nacimiento] = useState("")
   const [password2, setPassword2] = useState("")
+  const [nacional, setnacional] = useState("")
 
-  const {registerUser} = useContext(AuthContext)
+  const { registerUser } = useContext(AuthContext)
 
   console.log(email);
   console.log(username);
+  console.log(fecha_nacimiento);
   console.log(password);
   console.log(password2);
+  console.log(nacional)
 
 
   const handleSubmit = async e => {
     e.preventDefault()
-    registerUser(email, username, password, password2)
+    registerUser(email, username, fecha_nacimiento, password, password2, nacional)
   }
-  
+
 
   return (
     <div>
@@ -80,6 +84,16 @@ function Registerpage() {
                           </div>
                           <div className="form-outline mb-4">
                             <input
+                              type="date"
+                              id="form2Example17"
+                              className="form-control form-control-lg"
+                              placeholder="fecha_nacimiento"
+                              onChange={e => setfecha_nacimiento(e.target.value)}
+
+                            />
+                          </div>
+                          <div className="form-outline mb-4">
+                            <input
                               type="password"
                               id="form2Example17"
                               className="form-control form-control-lg"
@@ -97,6 +111,17 @@ function Registerpage() {
                               onChange={e => setPassword2(e.target.value)}
 
                             />
+                          </div>
+                          <div className="form-outline mb-4">
+                            <select name="select" type="select"
+                              id="form2Example17"
+                              className="form-control form-control-lg"
+                              placeholder="Nacional o Extranjero"
+                              onChange={e => setnacional(e.target.value)}>
+                              <option selected>Elija una opción</option>
+                              <option value="nacional" >Nacional</option>
+                              <option value="extranjero" >Extranjero</option>
+                            </select>
                           </div>
                           <div className="pt-1 mb-4">
                             <button
@@ -143,7 +168,7 @@ function Registerpage() {
           </div>
           {/* Copyright */}
         </footer>
-    </>
+      </>
 
     </div>
   )

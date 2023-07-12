@@ -1,6 +1,6 @@
-import {createContext, useState, useEffect} from "react";
+import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 const swal = require('sweetalert2')
 
 const AuthContext = createContext();
@@ -13,9 +13,9 @@ export const AuthProvider = ({ children }) => {
             ? JSON.parse(localStorage.getItem("authTokens"))
             : null
     );
-    
 
-    const [user, setUser] = useState(() => 
+
+    const [user, setUser] = useState(() =>
         localStorage.getItem("authTokens")
             ? jwt_decode(localStorage.getItem("authTokens"))
             : null
@@ -29,8 +29,8 @@ export const AuthProvider = ({ children }) => {
     const loginUser = async (email, password) => {
         const response = await fetch("http://127.0.0.1:8000/api/token/", {
             method: "POST",
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 email, password
@@ -39,7 +39,8 @@ export const AuthProvider = ({ children }) => {
         const data = await response.json()
         console.log(data);
 
-        if(response.status === 200){
+        if (response.status === 200)
+        {
             console.log("Logged In");
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
@@ -55,7 +56,8 @@ export const AuthProvider = ({ children }) => {
                 showConfirmButton: false,
             })
 
-        } else {    
+        } else
+        {
             console.log(response.status);
             console.log("there was a server issue");
             swal.fire({
@@ -69,18 +71,22 @@ export const AuthProvider = ({ children }) => {
             })
         }
     }
-
-    const registerUser = async (email, username, password, password2) => {
+    const parciadorDeNacionalidad = (esNacional) => {
+        return esNacional === "nacional" ? true : false
+    }
+    const registerUser = async (email, username, fecha_nacimiento, password, password2, nacionalidad) => {
+        const nacional = parciadorDeNacionalidad(nacionalidad);
         const response = await fetch("http://127.0.0.1:8000/api/register/", {
             method: "POST",
             headers: {
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                email, username, password, password2
+                email, username, fecha_nacimiento, password, password2, nacional
             })
         })
-        if(response.status === 201){
+        if (response.status === 201)
+        {
             history.push("/login")
             swal.fire({
                 title: "Registration Successful, Login Now",
@@ -91,7 +97,8 @@ export const AuthProvider = ({ children }) => {
                 timerProgressBar: true,
                 showConfirmButton: false,
             })
-        } else {
+        } else
+        {
             console.log(response.status);
             console.log("there was a server issue");
             swal.fire({
@@ -123,7 +130,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const contextData = {
-        user, 
+        user,
         setUser,
         authTokens,
         setAuthTokens,
@@ -133,7 +140,8 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (authTokens) {
+        if (authTokens)
+        {
             setUser(jwt_decode(authTokens.access))
         }
         setLoading(false)
