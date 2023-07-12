@@ -8,7 +8,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'fecha_nacimiento')
+        fields = ('id', 'username', 'email', 'fecha_nacimiento','nacional')
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -20,6 +20,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         token['email'] = user.email
         token['fecha_nacimiento'] = user.fecha_nacimiento
+        token['nacional'] = user.nacional
 
         token['bio'] = user.profile.bio
         token['image'] = str(user.profile.image)
@@ -35,7 +36,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'username','fecha_nacimiento', 'password', 'password2')
+        fields = ('email', 'username','fecha_nacimiento', 'password', 'password2','nacional')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -43,13 +44,19 @@ class RegisterSerializer(serializers.ModelSerializer):
                 {"password": "Password fields didn't match."})
 
         return attrs
+  
+      
 
     def create(self, validated_data):
         print(validated_data)
+        print('das')
         user = User.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
-            fecha_nacimiento = validated_data['fecha_nacimiento']
+            fecha_nacimiento = validated_data['fecha_nacimiento'],
+            
+            nacional = validated_data['nacional']
+
         )
 
         user.set_password(validated_data['password'])

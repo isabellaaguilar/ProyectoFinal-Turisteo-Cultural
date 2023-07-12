@@ -8,12 +8,9 @@ class User(AbstractUser):
     username = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     fecha_nacimiento = models.CharField(max_length=10, blank=True, null=True)
+    nacional = models.BooleanField(default=True)
 
     # es_extranjera = models.BooleanField(default=False)
-    # if es_extranjera==True:
-    #     es_extranjera: "Nacional"
-    # else:   
-    #     es_extranjera: "Extranjera"
 
 
     USERNAME_FIELD = 'email'
