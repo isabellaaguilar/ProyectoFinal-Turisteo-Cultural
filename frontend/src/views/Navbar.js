@@ -17,7 +17,9 @@ function Navbar() {
 
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-dark  bg-dark">
+        {/* <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark"> */}
+
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             <img style={{ width: "120px", padding: "6px" }} src={logo} alt="" />
@@ -46,10 +48,10 @@ function Navbar() {
               {token !== null &&
                 <>
 
-
+                  {/* 
                   <li class="nav-item">
                     <a class="nav-link" href="/dashboard">Dashboard</a>
-                  </li>
+                  </li> */}
                   <li class="nav-item">
                     <a class="nav-link" onClick={logoutUser} style={{ cursor: "pointer" }}>Logout</a>
                   </li>
@@ -57,7 +59,17 @@ function Navbar() {
                 </>
 
               }
+              {token !== null &&
+                <>
 
+
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="/RegisterActividad">Registro de actividad</a>
+                  </li>
+                </>
+
+              }
 
             </ul>
           </div>

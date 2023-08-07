@@ -5,7 +5,7 @@ function Homepage() {
   return (
     <div>
       <>
-        <main role="madin" style={{ marginTop: 105 }}>
+        <main role="madin" style={{ marginTop: 0 }}>
           {/* Main jumbotron for a primary marketing message or call to action */}
           <div className="jumbotron" style={{ height: 500 }}>
             <div className="container">

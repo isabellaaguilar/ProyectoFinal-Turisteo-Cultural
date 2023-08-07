@@ -10,19 +10,11 @@ class User(AbstractUser):
     fecha_nacimiento = models.CharField(max_length=10, blank=True, null=True)
     nacional = models.BooleanField(default=True)
 
-    # es_extranjera = models.BooleanField(default=False)
 
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
-    # def save(self, *args, **kwargs):
-    #     if self.fecha_nacimiento:
-    #         try:
-    #             datetime.strptime(self.fecha_nacimiento, '%Y-%m-%d')
-    #         except ValueError:
-    #             raise ValueError('El formato de fecha de nacimiento no es válido. Utiliza el formato YYYY-MM-DD.')
-    #     super().save(*args, **kwargs)
 
     def profile(self):
         profile = Profile.objects.get(user=self)
@@ -44,3 +36,28 @@ def save_user_profile(sender, instance, **kwargs):
 post_save.connect(create_user_profile, sender=User)
 post_save.connect(save_user_profile, sender=User)
 
+
+
+
+
+class TipoEvento(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField()
+
+class ActividadTipo(models.Model):
+    tipoevento = models.ForeignKey(TipoEvento, on_delete=models.CASCADE)
+    idactividades = models.ManyToManyField('Actividad')
+
+class Actividad(models.Model):
+    nombre = models.CharField(max_length=100)
+    longitud = models.DecimalField(max_digits=10, decimal_places=6)
+    latitud = models.DecimalField(max_digits=10, decimal_places=6)
+    fecha = models.DateField()
+    descripcion = models.TextField()
+    img1 = models.ImageField(upload_to="actividad_images", blank=True, null=True)
+    img2 = models.ImageField(upload_to="actividad_images", blank=True, null=True)
+
+class UsuarioActividad(models.Model):
+    idusuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    idactividad = models.ForeignKey(Actividad, on_delete=models.CASCADE)
+    fecha_de_interes = models.DateField()

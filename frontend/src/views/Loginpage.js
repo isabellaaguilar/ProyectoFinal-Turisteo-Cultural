@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
-
+import vasija from '../views/imagenes/vasijas.jpg'
 
 
 function Loginpage() {
@@ -30,10 +30,10 @@ function Loginpage() {
                   <div className="row g-0">
                     <div className="col-md-6 col-lg-5 d-none d-md-block">
                       <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                        src={vasija}
                         alt="login form"
                         className="img-fluid"
-                        style={{ borderRadius: "1rem 0 0 1rem" }}
+                        style={{ borderRadius: "1rem 0 0 1rem", height: "100%" }}
                       />
                     </div>
                     <div className="col-md-6 col-lg-7 d-flex align-items-center">
@@ -49,14 +49,15 @@ function Loginpage() {
                                 className="fas fa-cubes fa-2x me-3"
                                 style={{ color: "#ff6219" }}
                               />
-                              <span className="h2 fw-bold mb-0">Welcome back 👋</span>
+                              <span className="h2 fw-bold mb-0">      Bienvenido de nuevo turisteo cultural!!!
+                              </span>
                             </div>
                           </div>
                           <h5
                             className="fw-normal mb-3 pb-3"
                             style={{ letterSpacing: 1 }}
                           >
-                            Sign into your account
+                            inscribase en su cuenta
                           </h5>
                           <div className="form-outline mb-4">
                             <input
@@ -77,7 +78,7 @@ function Loginpage() {
                               name='password'
                             />
                             <label className="form-label" htmlFor="form2Example27">
-                              Password
+                              contraseña
                             </label>
                           </div>
                           <div className="pt-1 mb-4">
@@ -88,15 +89,15 @@ function Loginpage() {
                               Login
                             </button>
                           </div>
-                          <a className="small text-muted" href="#!">
-                            Forgot password?
-                          </a>
-                          <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
-                            Don't have an account?{" "}
-                            <Link to="/register" style={{ color: "#393f81" }}>
-                              Register Now
-                            </Link>
-                          </p>
+                          {/* <a className="small text-muted" href="#!">
+                              Forgot password?
+                            </a>
+                            <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
+                              Don't have an account?{" "}
+                              <Link to="/register" style={{ color: "#393f81" }}>
+                                Register Now
+                              </Link>
+                            </p> */}
                           <a href="#!" className="small text-muted">
                             Terms of use.
                           </a>
@@ -117,10 +118,8 @@ function Loginpage() {
             className="text-center p-3"
             style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
           >
-            © 2019 - till date Copyright:
-            <a className="text-dark" href="https://mdbootstrap.com/">
-              desphixs.com
-            </a>
+            © 2023 - Isabella Aguilar Calvo Copyright
+
           </div>
         </footer>
       </>
