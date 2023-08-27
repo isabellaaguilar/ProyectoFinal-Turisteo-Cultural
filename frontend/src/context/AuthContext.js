@@ -85,6 +85,8 @@ export const AuthProvider = ({ children }) => {
                 email, username, fecha_nacimiento, password, password2, nacional
             })
         })
+
+
         if (response.status === 201)
         {
             history.push("/login")
@@ -113,6 +115,53 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+
+
+    const registerAct = async (nombre, longitud, latitud, fecha, descripcion, img1, img2, tipoEventosARegistrar) => {
+        const response = await fetch("http://127.0.0.1:8000/api/registerActividad/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nombre, longitud, latitud, fecha, descripcion, img1, img2, tipoEventosARegistrar
+            })
+        })
+
+        if (response.status === 201)
+        {
+            history.push("/login")
+            swal.fire({
+                title: "Registration Successful, Login Now",
+                icon: "success",
+                toast: true,
+                timer: 6000,
+                position: 'top-right',
+                timerProgressBar: true,
+                showConfirmButton: false,
+            })
+        } else
+        {
+            console.log(response.status);
+            console.log("there was a server issue");
+            swal.fire({
+                title: "An Error Occured " + response.status,
+                icon: "error",
+                toast: true,
+                timer: 6000,
+                position: 'top-right',
+                timerProgressBar: true,
+                showConfirmButton: false,
+            })
+        }
+    }
+
+
+
+
+
+
+
     const logoutUser = () => {
         setAuthTokens(null)
         setUser(null)
@@ -137,6 +186,7 @@ export const AuthProvider = ({ children }) => {
         registerUser,
         loginUser,
         logoutUser,
+        registerAct,
     }
 
     useEffect(() => {

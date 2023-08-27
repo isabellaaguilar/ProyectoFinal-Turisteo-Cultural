@@ -1,33 +1,63 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 import vasija from '../views/imagenes/vasijas.jpg'
+import Select from 'react-select';
 
 
 function Registerpage() {
 
-  const [email, setEmail] = useState("")
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [fecha_nacimiento, setfecha_nacimiento] = useState("")
-  const [password2, setPassword2] = useState("")
-  const [nacional, setnacional] = useState("")
+  const [nombre, setNombre] = useState("")
+  const [longitud, setLongitud] = useState("")
+  const [latitud, setLatitud] = useState("")
+  const [fecha, setFecha] = useState("")
+  const [descripcion, setDescripcion] = useState("")
 
-  const { registerUser } = useContext(AuthContext)
+  const [img1, setImg1] = useState("")
+  const [img2, setImg2] = useState("")
 
-  console.log(email);
-  console.log(username);
-  console.log(fecha_nacimiento);
-  console.log(password);
-  console.log(password2);
-  console.log(nacional)
+  const [tipoEventosARegistrar, setTipoEventosARegistrar] = useState("")
+
+
+  const [eveneto, setEvento] = useState({})
+
+
+  const { registerAct } = useContext(AuthContext)
+
+  console.log(nombre);
+  console.log(longitud);
+  console.log(latitud);
+  console.log(fecha);
+  console.log(descripcion);
+
+  console.log(img1);
+  console.log(img2)
 
 
   const handleSubmit = async e => {
-    e.preventDefault()
-    registerUser(email, username, fecha_nacimiento, password, password2, nacional)
+    console.log("llego aqui")
+    registerAct(nombre, longitud, latitud, fecha, descripcion, img1, img2, tipoEventosARegistrar)
   }
 
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
+    const response = await fetch("http://127.0.0.1:8000/api/tipoEvento/");  // Asegúrate de usar la URL correcta
+    const tipoEventoData = await response.json();
+    setEvento(tipoEventoData)
+    console.log(tipoEventoData);
+  }, [])
+
+
+  const agregarMulti = (e) => {
+    let tipoDeEventos = [];
+    console.log("llego nuevo elemento")
+    e.map(element => {
+      tipoDeEventos.push(element.value)
+    })
+
+    setTipoEventosARegistrar(tipoDeEventos.toString())
+  }
 
   return (
     <div>
@@ -68,11 +98,11 @@ function Registerpage() {
                           </h5>
                           <div className="form-outline mb-4">
                             <input
-                              type="email"
+                              type="text"
                               id="form2Example17"
                               className="form-control form-control-lg"
-                              placeholder="Email Address"
-                              onChange={e => setEmail(e.target.value)}
+                              placeholder="nombre"
+                              onChange={e => setNombre(e.target.value)}
                             />
                           </div>
                           <div className="form-outline mb-4">
@@ -80,8 +110,18 @@ function Registerpage() {
                               type="text"
                               id="form2Example17"
                               className="form-control form-control-lg"
-                              placeholder="Username"
-                              onChange={e => setUsername(e.target.value)}
+                              placeholder="longitud"
+                              onChange={e => setLongitud(e.target.value)}
+
+                            />
+                          </div>
+                          <div className="form-outline mb-4">
+                            <input
+                              type="text"
+                              id="form2Example17"
+                              className="form-control form-control-lg"
+                              placeholder="latitud"
+                              onChange={e => setLatitud(e.target.value)}
 
                             />
                           </div>
@@ -90,42 +130,53 @@ function Registerpage() {
                               type="date"
                               id="form2Example17"
                               className="form-control form-control-lg"
-                              placeholder="fecha_nacimiento"
-                              onChange={e => setfecha_nacimiento(e.target.value)}
+                              placeholder="Fecha"
+                              onChange={e => setFecha(e.target.value)}
 
                             />
                           </div>
                           <div className="form-outline mb-4">
                             <input
-                              type="password"
+                              type="text"
                               id="form2Example17"
                               className="form-control form-control-lg"
-                              placeholder="Password"
-                              onChange={e => setPassword(e.target.value)}
+                              placeholder="Descripción"
+                              onChange={e => setDescripcion(e.target.value)}
 
                             />
                           </div>
                           <div className="form-outline mb-4">
                             <input
-                              type="password"
+                              type="text"
                               id="form2Example27"
                               className="form-control form-control-lg"
-                              placeholder="Confirm Password"
-                              onChange={e => setPassword2(e.target.value)}
+                              placeholder="Imagen1"
+                              onChange={e => setImg1(e.target.value)}
 
                             />
                           </div>
                           <div className="form-outline mb-4">
-                            <select name="select" type="select"
-                              id="form2Example17"
+                            <input
+                              type="text"
+                              id="form2Example27"
                               className="form-control form-control-lg"
-                              placeholder="Nacional o Extranjero"
-                              onChange={e => setnacional(e.target.value)}>
-                              <option selected>Elija una opción</option>
-                              <option value="nacional" >Nacional</option>
-                              <option value="extranjero" >Extranjero</option>
-                            </select>
+                              placeholder="Imagen2"
+                              onChange={e => setImg2(e.target.value)}
+
+                            />
                           </div>
+
+                          <div className="form-outline mb-4">
+                            <Select
+                              onChange={agregarMulti}
+                              isMulti
+                              name="colors"
+                              options={eveneto}
+                              className="basic-multi-select"
+                              classNamePrefix="select"
+                            />
+                          </div>
+
                           <div className="pt-1 mb-4">
                             <button
                               className="btn btn-dark btn-lg btn-block"

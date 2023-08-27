@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from api.models import User
+from api.models import User, TipoEvento
+from api.models import Actividad
 
-from api.serializer import MyTokenObtainPairSerializer, RegisterSerializer
+from api.serializer import MyTokenObtainPairSerializer, RegisterSerializer, RegisterSerializerActividad, TipoEventoActividadSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -12,6 +13,27 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 
+
+
+
+
+class RegisterViewAct(generics.CreateAPIView):
+    queryset = Actividad.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializerActividad
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        tipos_evento = TipoEvento.objects.all()
+        context['tipos_evento'] = TipoEventoSerializer(tipos_evento, many=True).data
+        return context
+
+
+
+class TipoEventopViewAcr(generics.ListAPIView):
+    queryset = TipoEvento.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = TipoEventoActividadSerializer
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -29,7 +51,9 @@ def getRoutes(request):
     routes = [
         '/api/token/',
         '/api/register/',
-        '/api/token/refresh/'
+        '/api/token/refresh/',
+        '/api/registerActividad/',
+        '/api/tipoEvento/',
     ]
     return Response(routes)
 

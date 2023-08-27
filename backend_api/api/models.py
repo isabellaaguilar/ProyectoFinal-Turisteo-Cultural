@@ -54,8 +54,8 @@ class Actividad(models.Model):
     latitud = models.DecimalField(max_digits=10, decimal_places=6)
     fecha = models.DateField()
     descripcion = models.TextField()
-    img1 = models.ImageField(upload_to="actividad_images", blank=True, null=True)
-    img2 = models.ImageField(upload_to="actividad_images", blank=True, null=True)
+    img1 = models.TextField(blank=True, null=True)
+    img2 = models.TextField(blank=True, null=True)
 
 class UsuarioActividad(models.Model):
     idusuario = models.ForeignKey(User, on_delete=models.CASCADE)
