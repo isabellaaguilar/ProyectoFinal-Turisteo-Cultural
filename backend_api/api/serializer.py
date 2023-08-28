@@ -2,7 +2,6 @@ from api.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from api.models import Actividad
@@ -23,21 +22,6 @@ class UserSerializer(serializers.ModelSerializer):
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
 
-    # def get_token2(cls, act):
-    #     token2 = super().get_token(act)
-        
-    #     # These are claims, you can add custom claims
-    #     token2['nombre'] = act.nombre
-    #     token2['longitud'] = act.longitud
-    #     token2['latitud'] = act.latitud
-    #     token2['fecha'] = act.fecha
-    #     token2['descripcion'] = act.descripcion
-    #     token2['img1'] = act.profile.bio
-    #     token2['img2'] = act.profile.bio
-
-    #     # ...
-    #     return token2
-
 
     def get_token(cls, user):
         token = super().get_token(user)
@@ -54,12 +38,30 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['verified'] = user.profile.verified
         # ...
         return token
-    
+
+
+class ActividadTipoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActividadTipo
+        fields = '__all__'  # Puedes personalizar los campos aquí si es necesario
 
 class TipoEventoActividadSerializer(serializers.Serializer):  # Debes heredar de serializers.Serializer
     def to_representation(self, validated_data):
         return {'value':validated_data.id, 'label': validated_data.nombre}
     
+class ActividadSerializer(serializers.Serializer):  # Debes heredar de serializers.Serializer
+     actividad_tipo = ActividadTipoSerializer(many=True, read_only=True)  # Campo para ActividadTipo
+
+        
+     def get_actividad_tipo(self, validated_data):
+        actividad_tipo_instances = ActividadTipo.objects.filter(idactividades=validated_data.pk)
+        actividad_tipo_data = [at.tipoevento.nombre for at in actividad_tipo_instances]
+        return  ",".join(actividad_tipo_data)
+     
+     def to_representation(self, validated_data):
+        return {'nombre':validated_data.nombre, 'longitud': validated_data.longitud, "latitud": validated_data.latitud, "fecha":validated_data.fecha, "descripcion": validated_data.descripcion, "tipo_evento": self.get_actividad_tipo(validated_data)}
+
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -135,3 +137,7 @@ class RegisterSerializerActividad(serializers.ModelSerializer):
             actividad_tipo.idactividades.add(act)  # Agregar la relación many-to-many a través de la instancia de ActividadTipo
 
         return act
+    
+
+
+

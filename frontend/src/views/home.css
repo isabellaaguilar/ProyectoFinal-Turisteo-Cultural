@@ -1,0 +1,101 @@
+/* Homepage.css */
+
+/* Estilos generales */
+.activity {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Estilos del modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 80%;
+  overflow-y: auto;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Estilos adicionales del modal */
+.modal h2 {
+  margin-top: 0;
+}
+
+.modal p {
+  margin-bottom: 10px;
+}
+
+/* Estilo de botón dentro del modal */
+.modal .btn {
+  margin-top: 10px;
+}
+
+/* Estilos para el contenido del modal */
+.modal-content {
+  padding: 20px;
+}
+
+/* Estilos para el botón de cerrar */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+}
+
+/* Estilos para el título del modal */
+.modal-title {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* Estilos para la descripción del modal */
+.modal-description {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Estilos para los detalles del modal */
+.modal-details {
+  font-size: 14px;
+  color: #555;
+}
+
+.modal-details p {
+  margin-bottom: 5px;
+}

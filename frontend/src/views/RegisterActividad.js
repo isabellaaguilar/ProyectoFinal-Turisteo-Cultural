@@ -147,7 +147,8 @@ function Registerpage() {
                           </div>
                           <div className="form-outline mb-4">
                             <input
-                              type="text"
+                              type="file"
+
                               id="form2Example27"
                               className="form-control form-control-lg"
                               placeholder="Imagen1"
@@ -157,7 +158,7 @@ function Registerpage() {
                           </div>
                           <div className="form-outline mb-4">
                             <input
-                              type="text"
+                              type="file"
                               id="form2Example27"
                               className="form-control form-control-lg"
                               placeholder="Imagen2"

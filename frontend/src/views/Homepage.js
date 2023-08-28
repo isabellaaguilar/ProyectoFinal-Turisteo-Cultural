@@ -1,101 +1,105 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
-import React from 'react'
-import pais from '../views/imagenes/costaricamorado.png'
-function Homepage() {
+import React, { useEffect, useState } from 'react';
+import Modal from "react-modal";
+import pais from '../views/imagenes/costaricamorado.png';
+import './home.css'; // Importa tus estilos CSS aquí
+
+const Activity = ({ activity, onClick }) => (
+  <div className="activity">
+    <h2>{activity.nombre}</h2>
+    <p>{activity.descripcion}</p>
+    <button className="btn btn-secondary" onClick={onClick}>
+      View details »
+    </button>
+  </div>
+);
+
+const ActivityModal = ({ activity, onClose }) => (
+  <Modal
+    isOpen={activity !== null}
+    onRequestClose={onClose}
+    overlayClassName="modal-overlay"
+  >
+    {activity && (
+      <div className="modal-content">
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
+        <h2 className="modal-title">{activity.nombre}</h2>
+        <p className="modal-description">{activity.descripcion}</p>
+        <div className="modal-details">
+          <p><strong>Fecha:</strong> {activity.fecha}</p>
+          <p><strong>Latitud:</strong> {activity.latitud}</p>
+          <p><strong>Longitud:</strong> {activity.longitud}</p>
+          <p><strong>Tipo de evento:</strong> {activity.tipo_evento}</p>
+        </div>
+      </div>
+    )}
+  </Modal>
+);
+
+const Homepage = () => {
+  const [actividades, setActividades] = useState([]);
+  const [selectedActivity, setSelectedActivity] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try
+      {
+        const response = await fetch("http://127.0.0.1:8000/api/actividades/");
+        const actividadesData = await response.json();
+        setActividades(actividadesData);
+      } catch (error)
+      {
+        console.error("Error al obtener los datos:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleModalOpen = (activity) => {
+    setSelectedActivity(activity);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedActivity(null);
+  };
+
   return (
     <div>
-      <>
-        <main role="madin" style={{ marginTop: 0 }}>
-          {/* Main jumbotron for a primary marketing message or call to action */}
-          <div className="jumbotron" style={{ height: 500 }}>
-            <div className="container">
-              <h1 className="display-3">Turisteo Cultural</h1>
-              <p>
-                Pase por las diferentes actividades culturales planeadas por este mes
-              </p>
-              <img style={{ height: "150px", padding: "1px", width: "200px" }} src={pais} alt="" />
-
-              <p>
-                <a className="btn btn-primary btn-lg" href="#" role="button">
-                  Learn more »
-                </a>
-              </p>
-
-            </div>
-            <div style={{ marginTop: -250 }} class="layout-4-item-left">
-
-              <iframe class="mapita"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62879.69512815016!2d-84.15454496280182!3d9.935543132510816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa0e342c50d15c5%3A0xe6746a6a9f11b882!2zU2FuIEpvc8Op!5e0!3m2!1ses!2scr!4v1686417009495!5m2!1ses!2scr"
-                style={{
-                  width: 500, height: 450, border: 0, marginLeft: 850, Top: 0, marginTop: -120
-                }}
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              >
-
-
-
-              </iframe>
-            </div>
-
-
-          </div>
+      <main role="madin" style={{ marginTop: 0 }}>
+        <div className="jumbotron" style={{ height: 500 }}>
           <div className="container">
-            {/* Example row of columns */}
-            <div className="row">
-              <div className="col-md-4">
-                <h2>Festival de la comida
-
-                </h2>
-                <p>
-                  "Este 20 de abril, el festival de la comida en San Jose centro".{" "}
-                </p>
-                <p>
-                  <a className="btn btn-secondary" href="#" role="button">
-                    View details »
-                  </a>
-                </p>
+            <h1 className="display-3">Turisteo Cultural</h1>
+            <p>
+              Pase por las diferentes actividades culturales planeadas por este mes
+            </p>
+            <img style={{ height: "150px", padding: "1px", width: "200px" }} src={pais} alt="" />
+            <p>
+              <a className="btn btn-primary btn-lg" href="#" role="button">
+                Learn more »
+              </a>
+            </p>
+          </div>
+          {/* Resto de tu contenido */}
+        </div>
+        <div className="container">
+          <div className="row">
+            {actividades.map((activity, index) => (
+              <div className="col-md-4" key={index}>
+                <Activity activity={activity} onClick={() => handleModalOpen(activity)} />
               </div>
-              <div className="col-md-4">
-                <h2>Taller de pintura
-
-                </h2>
-                <p>
-                  Para toda la familia.{" "}
-                </p>
-                <p>
-                  <a className="btn btn-secondary" href="#" role="button">
-                    View details »
-                  </a>
-                </p>
-              </div>
-              <div className="col-md-4">
-                <h2>Concierto benefico
-                  "Chepe se baña Rock"
-
-                </h2>
-                <p>
-                  Done y escuche a los principales artistas del Rock nacional.
-                </p>
-                <p>
-                  <a className="btn btn-secondary" href="#" role="button">
-                    View details »
-                  </a>
-                </p>
-              </div>
-            </div>
-            <hr />
-          </div>{" "}
-          {/* /container */}
-        </main>
-        <footer className="container">
-          <p>© Company 2017-2018</p>
-        </footer>
-      </>
-
+            ))}
+          </div>
+          <hr />
+        </div>
+      </main>
+      <footer className="container">
+        <p>© Company 2017-2018</p>
+      </footer>
+      <ActivityModal activity={selectedActivity} onClose={handleCloseModal} />
     </div>
   )
 }
 
-export default Homepage
+export default Homepage;

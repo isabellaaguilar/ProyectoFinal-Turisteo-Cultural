@@ -48,10 +48,10 @@ function Navbar() {
               {token !== null &&
                 <>
 
-                  {/* 
+
                   <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">Dashboard</a>
-                  </li> */}
+                    <a class="nav-link" href="/tabla">tabla</a>
+                  </li>
                   <li class="nav-item">
                     <a class="nav-link" onClick={logoutUser} style={{ cursor: "pointer" }}>Logout</a>
                   </li>

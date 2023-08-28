@@ -8,20 +8,26 @@ import Homepage from './views/Homepage'
 import Registerpage from './views/Registerpage'
 import Loginpage from './views/Loginpage'
 import Dashboard from './views/Dashboard'
+import Tabla from './views/Tabla'
+
 import Navbar from './views/Navbar'
 import registroactividad from './views/RegisterActividad'
 
 
 function App() {
+
   return (
     <Router>
       <AuthProvider>
         < Navbar />
         <Switch>
-          <PrivateRoute component={Dashboard} path="/dashboard" exact />
+          <PrivateRoute component={Tabla} path="/tabla" exact />
+
           <Route component={Loginpage} path="/login" />
           <Route component={Registerpage} path="/register" exact />
           <Route component={registroactividad} path="/registeractividad" exact />
+
+          <Route component={Tabla} path="/actividades" exact />
 
           <Route component={Homepage} path="/" exact />
         </Switch>
